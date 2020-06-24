@@ -2,12 +2,32 @@ import React from 'react'
 import SearchBar from './SearchBar'
 import youtube from '../apis/youtube'
 import VideoList from './VideoList'
+import VideoDetail from './VideoDetail'
 
 const KEY = "AIzaSyCSQ0PdHbrlg6X2Ex2DE0DYy-EPFtaTW7s"
 
 class App extends React.Component{
-    state = { videos: [] }
+    state = { videos: [], selectedVideo: null }
     
+    componentDidMount(){
+        //this.onFirstOpen()
+        this.onSearchSubmit('')
+    }
+    //to implement later for optimization
+    // onFirstOpen = async () =>{
+    //     const response = await youtube.get('/guideCategories', {
+    //          params:{
+    //              part: 'snippet',
+    //              regionCode:"CA",
+    //              key: KEY
+    //          }
+    //      })
+    //      this.setState({
+    //          videos:response.data.items,
+    //          selectedVideo:response.data.items[0]
+    //      })
+    //  }
+ 
     onSearchSubmit = async (searchTerm) =>{
        const response = await youtube.get('/search', {
             params:{
@@ -17,14 +37,35 @@ class App extends React.Component{
                 q: searchTerm
             }
         })
-        this.setState({videos:response.data.items})
+        this.setState({
+            videos:response.data.items,
+            selectedVideo:response.data.items[0]
+        })
     }
 
+   
+
+    onVideoSelect = (video) => {
+       // console.log('From the App', video)
+       this.setState({selectedVideo: video})
+    }
+
+  
     render() {
         return (
             <div className= 'ui container'>
             <SearchBar onSearchTermSubmit={this.onSearchSubmit}/>
-            <VideoList videos = {this.state.videos}/>
+            <div className="ui grid">
+                <div className= "ui row">
+                    <div className="eleven wide column">
+                        <VideoDetail video= {this.state.selectedVideo}/>
+                    </div>
+                    <div className="five wide column">
+                        <VideoList onVideoSelect= {this.onVideoSelect} videos  = {this.state.videos}/>
+                    </div>
+                    
+                </div>
+            </div>
             </div>
         )
     }
