@@ -18,13 +18,13 @@ class SearchBar extends React.Component{
                 <form onSubmit={this.onFormSubmit} className="ui form">
                     <div className="field">
                         <label className="header">Minimalistic YouTube
+                        </label>
                         <input 
                             type ="text"    
                             placeholder= "Search"
                             value={this.state.searchTerm} 
                             onChange={this.onInputChange}
-                        />
-                        </label>
+                            />
                     </div>
                 </form> 
             
