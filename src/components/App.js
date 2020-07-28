@@ -4,8 +4,8 @@ import youtube from '../apis/youtube'
 import VideoList from './VideoList'
 import VideoDetail from './VideoDetail'
 
+// const KEY = "AIzaSyBfYh1Wc06bmyAwMltlPdFrziVR10hnCdo"
 const KEY = "AIzaSyCSQ0PdHbrlg6X2Ex2DE0DYy-EPFtaTW7s"
-
 class App extends React.Component{
     state = { videos: [], selectedVideo: null }
     
@@ -37,6 +37,8 @@ class App extends React.Component{
                 q: searchTerm
             }
         })
+        //console.log(response);
+        
         this.setState({
             videos:response.data.items,
             selectedVideo:response.data.items[0]
